@@ -12,6 +12,7 @@ import javax.swing.Timer;
 public class Field extends JPanel {
     // Флаг приостановленности движения
     private boolean paused;
+    private boolean pausedFast;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
 
@@ -55,9 +56,14 @@ public class Field extends JPanel {
         paused = true; //вкл пауза
     }
 
+    public synchronized void pauseFast(){
+        pausedFast = true; //вкл паузу быстрых мячей
+    }
+
     // Метод синхронизированный, т.е. только один поток может одновременно быть внутри
     public synchronized void resume() {
         paused = false; //выкл пауза
+        pausedFast = false; //выкл паузы быстрых мячей
         // Будим все ожидающие продолжения потоки
         notifyAll();
     }
@@ -69,6 +75,9 @@ public class Field extends JPanel {
             // Если режим паузы включен, то поток, зашедший
             // внутрь данного метода, засыпает
             wait();
+        }
+        if(pausedFast && ball.getSpeed() > 8){
+                wait();
         }
     }
 }

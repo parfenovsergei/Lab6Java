@@ -121,4 +121,8 @@ public class BouncingBall implements Runnable {
         canvas.draw(ball);
         canvas.fill(ball);
     }
+
+    public int getSpeed(){
+        return speed;
+    }
 }
