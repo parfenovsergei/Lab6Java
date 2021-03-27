@@ -17,6 +17,7 @@ public class MainFrame extends JFrame{
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
     private JMenuItem pauseMenuFastItem;
+    private JMenuItem pauseMenuBigItem;
 
     // Поле, по которому прыгают мячи
     private Field field = new Field();
@@ -59,6 +60,7 @@ public class MainFrame extends JFrame{
                 pauseMenuItem.setEnabled(false);
                 resumeMenuItem.setEnabled(true);
                 pauseMenuFastItem.setEnabled(false);
+                pauseMenuBigItem.setEnabled(false);
             }
         };
         pauseMenuItem = controlMenu.add(pauseAction);
@@ -70,6 +72,7 @@ public class MainFrame extends JFrame{
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(false);
                 pauseMenuFastItem.setEnabled(true);
+                pauseMenuBigItem.setEnabled(true);
             }
         };
         resumeMenuItem = controlMenu.add(resumeAction);
@@ -81,9 +84,22 @@ public class MainFrame extends JFrame{
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(true);
                 pauseMenuFastItem.setEnabled(false);
+                pauseMenuBigItem.setEnabled(true);
             }
         };
         pauseMenuFastItem = controlMenu.add(pauseFastAction);
+        pauseMenuFastItem.setEnabled(false);
+
+        Action pauseBigAction = new AbstractAction("Приостановить большие мячи") {
+            public void actionPerformed(ActionEvent event) {
+                field.pauseBig();
+                pauseMenuItem.setEnabled(true);
+                resumeMenuItem.setEnabled(true);
+                pauseMenuFastItem.setEnabled(true);
+                pauseMenuBigItem.setEnabled(false);
+            }
+        };
+        pauseMenuBigItem = controlMenu.add(pauseBigAction);
         pauseMenuFastItem.setEnabled(false);
 
         // Добавить в центр граничной компоновки поле Field

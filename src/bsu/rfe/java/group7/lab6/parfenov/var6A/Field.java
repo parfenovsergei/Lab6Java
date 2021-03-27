@@ -13,6 +13,7 @@ public class Field extends JPanel {
     // Флаг приостановленности движения
     private boolean paused;
     private boolean pausedFast;
+    private boolean pauseBig;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
 
@@ -60,10 +61,15 @@ public class Field extends JPanel {
         pausedFast = true; //вкл паузу быстрых мячей
     }
 
+    public synchronized void pauseBig(){
+        pauseBig = true;
+    }
+
     // Метод синхронизированный, т.е. только один поток может одновременно быть внутри
     public synchronized void resume() {
         paused = false; //выкл пауза
         pausedFast = false; //выкл паузы быстрых мячей
+        pauseBig = false;
         // Будим все ожидающие продолжения потоки
         notifyAll();
     }
@@ -77,6 +83,9 @@ public class Field extends JPanel {
             wait();
         }
         if(pausedFast && ball.getSpeed() > 8){
+                wait();
+        }
+        if(pauseBig && ball.getRadius() > 20){
                 wait();
         }
     }

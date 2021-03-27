@@ -125,4 +125,5 @@ public class BouncingBall implements Runnable {
     public int getSpeed(){
         return speed;
     }
+    public int getRadius() { return radius; }
 }
